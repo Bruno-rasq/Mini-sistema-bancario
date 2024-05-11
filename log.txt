@@ -1,0 +1,4 @@
+2024-05-10T22:48:16.088Z - NOVO USUÀRIO nome:adm - CPF:1234 - data_nasc:22/08/1980
+2024-05-10T22:48:32.286Z - NOVA CONTA CPF:1234 - NOME:adm
+2024-05-10T22:49:16.229Z - DEPOSITO - cliente:adm conta:1 - valor:R$5000.00
+2024-05-10T22:50:37.372Z - SAQUE - cliente:adm conta:1 - valor:R$450.00
