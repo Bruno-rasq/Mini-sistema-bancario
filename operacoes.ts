@@ -1,9 +1,9 @@
-import * as POO from './classes';
+import * as POO  from './classes';
 import { TELAS } from './screens';
 
 
 let numero_de_contas: number = 0;
-export let clientes: POO.Pessoa_fisica[] = [];
+let clientes: POO.Pessoa_fisica[] = [];
 
 
 /**

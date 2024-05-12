@@ -1,13 +1,13 @@
 {
-  "name": "nodejs-typescript",
+  "name": "mini sistema bancário typescript",
   "version": "1.0.0",
-  "description": "",
+  "description": "simulando comportamento de um banco online com typescrip, projeto de estudos",
   "main": "index.ts",
   "type" : "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Bruno Rasquinha",
   "license": "ISC",
   "dependencies": {
     "node-fetch": "^3.3.1"

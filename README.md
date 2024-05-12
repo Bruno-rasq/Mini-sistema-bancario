@@ -1,17 +1,19 @@
 ![imgame-introduçaõ](https://cdn.discordapp.com/attachments/1156087460175040577/1238645527030267944/56_Sem_Titulo_20240510211429.png?ex=66400a0a&is=663eb88a&hm=95b4ace93999735e373e1c8ffca8f84fa64da429cecffbe97816c3977a7e43fe)
 
-# Mini sistema bancário - ts
+---
 
-Bem-vindo! ao meu projeto de estudos, este projeto visa implementar a ideia de um sistema bancário simples
-feito com typescript. nele eu crio um sistema simples que simula uma situação em que é delegado a tarefa de 
-criar um sistema bancario para uma empresa iniciante onde nele será possivel cadastrar um novo usuário, uma nova conta e fazer as operações simples de Saque, Deposito e visualização do extrato bancário.
+# Mini sistema bancário - TypeScript
 
-OBJETIVO: Utilizar dos recusos e tipagem estática forte que a linguagem typescript fornece e paradigma de orientação a objetos para implementando classes que serão utilizadas na construção do código, aém claro de estudar e praticar essas tecnologias que é o principal.
+Bem-vindo ao meu projeto de estudos! Este projeto visa implementar a ideia de um sistema bancário simples feito com TypeScript. Nele, crio um sistema simples que simula uma situação em que é delegada a tarefa de criar um sistema bancário para uma empresa iniciante, onde será possível cadastrar um novo usuário, uma nova conta e realizar as operações simples de saque, depósito e visualização do extrato bancário.
 
-OBSERVAÇÃO: Este é um projeto de estudos, melhorias serão feitas assim que possivel.
+**OBJETIVO:** Utilizar os recursos e a tipagem estática forte que a linguagem TypeScript oferece, além do paradigma de orientação a objetos para implementar classes que serão utilizadas na construção do código, além de estudar e praticar essas tecnologias, que são o principal foco.
 
-CRÉTIDO: A ideia deste projeto foi desenvolvida no bootcamp de programação backend em python fornecido pela DIO.me
-link para mais informações: https://www.dio.me/
+**OBSERVAÇÃO:** Este é um projeto de estudos, e melhorias serão feitas assim que possível.
+
+**CRÉDITO:** A ideia deste projeto foi desenvolvida no bootcamp de programação backend em Python fornecido pela DIO.me. Link para mais informações: [https://www.dio.me/](https://www.dio.me/)
+
+--- 
+
 
 ## Indices
 
@@ -62,61 +64,153 @@ fazer saques com valores abaixo de R$ 500,00 e (igual ou abaixa do saldo disponi
 
 ## POO
 
-### Estruturas de classes: 
+A Programação Orientada a Objetos (POO) é um paradigma de programação que se baseia no conceito de "objetos", que representam entidades do mundo real com características (atributos) e comportamentos (métodos). A POO enfatiza a organização do código em unidades autônomas e reutilizáveis, facilitando o desenvolvimento, manutenção e compreensão de sistemas complexos.
 
-desenvolvend...
 
 ![diagrama-completo](https://cdn.discordapp.com/attachments/1156087460175040577/1238632413941338254/61_Sem_Titulo_20240510202142.png?ex=663ffdd4&is=663eac54&hm=481840b6a6c34f182021f557b252238781cbcc0691da644d5d0c19cb58a493be&)
 
-desenvolvend...
+### Estruturas de classes: 
+
 
 ![classe-conta](https://cdn.discordapp.com/attachments/1156087460175040577/1238632413198815325/60_Sem_Titulo.png?ex=663ffdd3&is=663eac53&hm=3ff8e6623dabd29e646eef8027dfa0797a9bd54e4ad809ba20bfa1f92d783f38&)
 
-### Conta
 
-desenvolvend...
+### Classe Conta
+
+A classe `Conta` implementa as funções principais de uma conta bancária. Ela implementa a interface `INTERFACES.conta` e possui os seguintes aspectos:
+
+#### Atributos e Métodos
+
+- `saldo`: O saldo atual da conta.
+- `senha`: A senha de acesso à conta.
+- `agencia`: A agência da conta (valor fixo).
+- `numero`: O número da conta.
+- `cliente`: O nome do cliente associado à conta.
+- `historico`: O histórico de transações da conta, representado por um objeto da classe `Historico`.
+- `constructor(numero: number, cliente: string, senha: string)`: Construtor da classe que recebe o número da conta, o nome do cliente e a senha como parâmetros. Inicializa os atributos da conta e cria um novo histórico.
+- Métodos `get` para acesso aos atributos.
+- Métodos `depositar(valor: number)` e `sacar(valor: number)`: Responsáveis por adicionar e retirar fundos da conta, respectivamente.
+
+### Classe Conta_corrente
+
+A classe `Conta_corrente` é uma subclasse de `Conta` e adiciona funcionalidades específicas para uma conta corrente. Ela possui os seguintes aspectos:
+
+#### Atributos e Métodos
+
+- `limite_por_saque`: O valor máximo permitido por saque.
+- 
+- `limite_saques`: O número máximo de saques permitidos por dia.
+- 
+- `constructor(numero: number, cliente: string, senha: string)`: Construtor da classe que recebe os mesmos parâmetros que o construtor da classe `Conta`, além de inicializar os atributos específicos de uma conta corrente.
+- 
+- Método `sacar(valor: number)`: Sobrescrito da classe pai para adicionar verificação de limites de saque e número de saques diários.
+
+### Observações
+
+- As classes `Conta` e `Conta_corrente` são exportadas para que possam ser utilizadas em outros arquivos, como `interfaces.ts` e `index.ts`.
+- `Conta_corrente` estende `Conta`, aproveitando funcionalidades básicas e adicionando funcionalidades específicas para uma conta corrente, como limites de saque.
+
 
 
 ![classe-cliente](https://cdn.discordapp.com/attachments/1156087460175040577/1238632414423810129/59_Sem_Titulo.png?ex=663ffdd4&is=663eac54&hm=c2de6be6f06d6be0f9c82e98a88ad4ac82499fc2bf104581b0210e3a72eec45a&)
 
+
 ### Classe Cliente
 
-desenvolvend...
+A classe `Cliente` representa um cliente genérico do sistema bancário. Ela implementa a interface `INTERFACES.cliente` e possui os seguintes atributos e métodos:
 
+#### Atributos
+- `endereco`: Uma string que representa o endereço do cliente.
+- `contas`: Um array de objetos `Conta_corrente` que armazena as contas associadas ao cliente.
+
+#### Construtor
+- `constructor(endereco: string)`: Recebe como parâmetro o endereço do cliente e inicializa o atributo `endereco`. O atributo `contas` é inicializado como um array vazio.
+
+#### Métodos
+- `adicionar_conta(conta: Conta_corrente)`: Adiciona uma nova conta à lista de contas do cliente.
+- 
+- `realizar_transacao(conta: Conta_corrente, transacao: Saque | Deposito)`: Realiza uma transação na conta especificada, chamando o método `Registrar()` da transação.
+
+### Classe Pessoa_fisica
+
+A classe `Pessoa_fisica` é uma subclasse de `Cliente` e representa um cliente pessoa física do sistema bancário. Ela estende a classe `Cliente` e implementa a interface `INTERFACES.pessoa_fisica`. Possui os seguintes atributos:
+
+#### Atributos
+- `nome`: Uma string que representa o nome completo do cliente.
+- `data_nascimento`: Um objeto `Date` que representa a data de nascimento do cliente.
+- `cpf`: Uma string que representa o CPF do cliente.
+
+#### Construtor
+- `constructor(endereco: string, nome: string, data_nascimento: Date, cpf: string)`: Recebe como parâmetros o endereço, nome, data de nascimento e CPF do cliente. Chama o construtor da classe pai `Cliente` passando o endereço como parâmetro, e inicializa os atributos `nome`, `data_nascimento` e `cpf`.
+
+### Observações
+- A classe `Pessoa_fisica` é exportada para que possa ser utilizada em outros arquivos, como `index.ts`.
+
+Essas classes representam a estrutura básica de clientes do sistema bancário, com a classe `Pessoa_fisica` especializada para clientes pessoa física.
 
 ![class-transação](https://cdn.discordapp.com/attachments/1156087460175040577/1238632414893445120/57_Sem_Titulo.png?ex=663ffdd4&is=663eac54&hm=30cb50afd53aa8685e82bbea6e4431ffb194972b0953ee80b445012c620d34c2&)
 
-### Transação
+### Classe Transacao (Transação)
 
-A classe Transação é uma classe abstrata (não pode ser instanciada), ela é responsavel por servir como uma estrutura base para as classes de Deposito e Saque, implementa
+A classe `Transacao` é uma classe abstrata que define uma estrutura genérica para transações bancárias. Ela possui os seguintes aspectos:
 
-   #### Atributo:
-   - valor {number} = valor da transação
+#### Atributos e Métodos
 
-   #### Método:
-   -realizar_transacao(): 
+- `Valor()`: Método abstrato que deve ser implementado nas subclasses para retornar o valor da transação.
+- 
+- `Registrar(conta: Conta_corrente)`: Método abstrato que deve ser implementado nas subclasses para registrar a transação em uma conta corrente específica.
+
+### Classe Saque
+
+A classe `Saque` é uma subclasse de `Transacao` e representa uma transação de saque realizada em uma conta corrente. Ela possui os seguintes aspectos:
+
+#### Construtor
+- `constructor(v: number)`: Recebe como parâmetro o valor a ser sacado e inicializa o atributo `valor`.
+
+#### Métodos
+- `Valor()`: Retorna o valor do saque.
+- `Registrar(conta: Conta_corrente)`: Registra o saque na conta corrente especificada, atualizando o histórico de transações.
+
+### Classe Deposito
+
+A classe `Deposito` é uma subclasse de `Transacao` e representa uma transação de depósito realizada em uma conta corrente. Ela possui os seguintes aspectos:
+
+#### Construtor
+- `constructor(v: number)`: Recebe como parâmetro o valor a ser depositado e inicializa o atributo `valor`.
+
+#### Métodos
+- `Valor()`: Retorna o valor do depósito.
+- `Registrar(conta: Conta_corrente)`: Registra o depósito na conta corrente especificada, atualizando o histórico de transações.
+
+### Observações
+- Ambas as classes `Saque` e `Deposito` estendem a classe abstrata `Transacao`.
+- As subclasses `Saque` e `Deposito` são exportadas para que possam ser utilizadas em outros arquivos, como `index.ts`.
+
+Essas classes fornecem uma estrutura flexível para representar e registrar transações bancárias em uma conta corrente.
    
 
-desenvolvend...
 
 ![classe-historico](https://cdn.discordapp.com/attachments/1156087460175040577/1238632414629073016/58_Sem_Titulo.png?ex=663ffdd4&is=663eac54&hm=c0b25ccddcc986051ccb09c0c13ea021d3d8b14b24c791ead07523d205c960d4&)
 
-### Histórico
+Claro, vou descrever a classe `Historico`:
 
-A classe Historico é responsável por instanciar para cada usuário um Array de objetos do Tipo Transação que servirá
-como um registro de cada transações de deposito ou saque feito na conta além de servir para recuperar o extrato bancario do usuario. Implementa:
+### Classe Historico
 
-  #### Atributos:
-    - transacoes {Array<Transações>}: armazena registros de transações
+A classe `Historico` é responsável por armazenar todas as transferências feitas a partir da classe `Conta_corrente`. Ela implementa a interface `INTERFACES.historico` e possui os seguintes aspectos:
 
-  #### Métodos:
-    - adicionar_transacao(valor, tipo, data): adiciona uma nova transação aos registros.
-    - GET Transacoes(): método que retornaa lista de transações
+#### Atributos e Métodos
 
-## Tecnologias e dependecias
+- `transacoes`: Um array de objetos que representam as transações realizadas.
+- 
+- `constructor()`: Construtor da classe que inicializa o atributo `transacoes` como um array vazio.
+- 
+- `get Transacoes()`: Método getter que retorna o array de transações.
+- 
+- `nova_transacao(tipo: string, valor: number, data: string)`: Método responsável por adicionar uma nova transação ao histórico. Recebe como parâmetros o tipo de transação, o valor e a data, e adiciona essas informações ao array `transacoes`.
 
-desenvolvendo...
+### Observações
 
-## Instalação
+- A classe `Historico` é exportada para que possa ser utilizada em outros arquivos, como `interfaces.ts`.
+- Ela serve como um registro das transações realizadas em uma conta corrente, permitindo acesso e consulta ao histórico de transações.
 
-desenvolvendo...
+Essa classe é importante para manter um registro completo das atividades realizadas em uma conta corrente, facilitando a auditoria e o acompanhamento das transações pelos usuários do sistema bancário.

@@ -1,7 +1,7 @@
-import * as op from './operacoes';
-import { rl } from './readline';
-import { TELAS } from './screens';
-import { UTILS } from './utils';
+import * as op           from './operacoes';
+import { rl }            from './readline';
+import { TELAS }         from './screens';
+import { UTILS }         from './utils';
 import { Pessoa_fisica } from './classes';
 
 type opcao          = 'a' | 'b' | 'c' | 'x';
@@ -13,6 +13,7 @@ type opcao_menu     = Extract<opcao, 'a' | 'b' | 'c' | 'x'> | string;
  * @description Função que coleta o input do usuario.
  */
 function getInput(message: string) {
+  
   return new Promise ((resolver) => {
     rl.question(message, (response) => {
       resolver (response)
@@ -78,6 +79,7 @@ async function depositar(): Promise<void> {
 }
 
 function realizar_deposito(valor: number, numero_conta: number, senha: string, cliente: Pessoa_fisica): void {
+  
   op.depositar(valor, numero_conta, senha, cliente)
   menu_conta()
 }
@@ -105,6 +107,7 @@ async function sacar(): Promise<void> {
 }
 
 function realizar_saque(valor: number, numero_conta: number, senha: string, cliente: Pessoa_fisica): void {
+  
   op.sacar(valor, numero_conta, senha, cliente)
   menu_conta()
 }
@@ -132,6 +135,7 @@ async function extrato(): Promise<void> {
 }
 
 function ver_extrato(numero_conta: number, cliente: Pessoa_fisica): void {
+  
   let extrato = op.ver_extrato(numero_conta, cliente)
   console.log(extrato)
   menu_conta()
@@ -167,10 +171,10 @@ async function menu_conta(): Promise<void> {
 function escolhaMenu(opcao: opcao_menu): void {
   
   switch(opcao.toLowerCase()){
-    case 'a': { console.clear(); depositar(); break; }
-    case 'b': { console.clear(); sacar(); break; }
-    case 'c': { console.clear(); extrato(); break; }
-    case 'x': { console.clear(); APP(); break; }
+    case 'a': { console.clear(); depositar();  break; }
+    case 'b': { console.clear(); sacar();      break; }
+    case 'c': { console.clear(); extrato();    break; }
+    case 'x': { console.clear(); APP();        break; }
     default:  { console.clear(); menu_conta(); break; }
   }
 }
@@ -190,10 +194,10 @@ async function cadastrar(): Promise<void> {
 function escolhaCadastro(opcao: opcao_cadastro): void {
   
   switch(opcao.toLowerCase()){
-    case 'a': { console.clear(); novo_user(); break }
-    case 'b': { console.clear(); nova_conta(); break }
-    case 'x': { console.clear(); APP(); break; }
-    default:  { console.clear(); cadastrar(); break; }
+    case 'a': { console.clear(); novo_user();  break; }
+    case 'b': { console.clear(); nova_conta(); break; }
+    case 'x': { console.clear(); APP();        break; }
+    default:  { console.clear(); cadastrar();  break; }
   }
 }
 
@@ -214,9 +218,9 @@ function escolhaAPP (opcao: opcao_app): void {
   
   switch (opcao.toLowerCase()){
     case 'a': { console.clear(); menu_conta(); break; }
-    case 'b': { console.clear(); cadastrar(); break; }
-    case 'x': { console.clear(); sair(); break; }
-    default:  { console.clear(); APP(); break; }
+    case 'b': { console.clear(); cadastrar();  break; }
+    case 'x': { console.clear(); sair();       break; }
+    default:  { console.clear(); APP();        break; }
   }
 }
 
