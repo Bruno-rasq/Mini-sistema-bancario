@@ -1,4 +1,5 @@
 import { historico, transacao } from '../interfaces'
+import { Logger, LogFilePath }  from './logger'
 
 /**
  * @class Historico
@@ -20,11 +21,20 @@ export class Historico implements historico  {
     return this.transacoes
   }
 
-  nova_transacao(tipo: string, valor: number, data:string): void {
+  public nova_transacao(tipo: string, valor: number, data:string): void {
+    
     this.transacoes.push({
       tipo: tipo,
       valor: valor,
       data: data
     })
+
+    let msg = `${tipo}-R$${valor.toFixed(2)}`
+    this.log(msg)
   }
+
+  private log(msm: string){
+    Logger.registrar(msm, LogFilePath.OOP)
+  }
+  
 };

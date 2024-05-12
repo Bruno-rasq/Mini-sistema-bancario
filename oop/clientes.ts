@@ -1,6 +1,7 @@
-import { Conta_corrente } from './contas'
-import { Saque, Deposito } from './transacoes'
+import { Conta_corrente }         from './contas'
+import { Saque, Deposito }        from './transacoes'
 import { pessoa_fisica, cliente } from '../interfaces'
+import { Logger, LogFilePath }    from './logger'
 
 /**
  * @class Cliente
@@ -18,11 +19,11 @@ class Cliente implements cliente {
     this.contas   = []
   }
 
-  adicionar_conta(conta: Conta_corrente){
+  public adicionar_conta(conta: Conta_corrente){
     this.contas.push(conta)
   }
 
-  realizar_transacao(conta: Conta_corrente, transacao: Saque | Deposito ) {
+  public realizar_transacao(conta: Conta_corrente, transacao: Saque | Deposito ) {
     transacao.Registrar(conta)
   }
   
@@ -48,5 +49,12 @@ export class Pessoa_fisica extends Cliente implements pessoa_fisica {
     this.nome            = nome
     this.data_nascimento = ddata_nascimento
     this.cpf             = cpf
+    this.log()
   }
+
+  private log(){
+    let msg = `CLIENTE CADASTRADO ${this.nome}-${this.cpf}`
+    Logger.registrar(msg, LogFilePath.OOP)
+  }
+  
 };

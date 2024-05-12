@@ -1,6 +1,7 @@
-import { UTILS } from '../modulos/utils'
-import { conta } from '../interfaces'
-import { Historico } from './historico'
+import { Logger, LogFilePath } from './logger'
+import { conta }               from '../interfaces'
+import { Historico }           from './historico'
+import { Error }               from './error'
 
 /**
  * @class Conta
@@ -28,45 +29,39 @@ export class Conta implements conta {
     this.historico = new Historico()
   }
 
-  get Saldo() {
+  get Saldo(): number {
     return this.saldo
   }
 
-  get Senha() {
+  set Saldo(valor: number) {
+    this.saldo -= valor
+  }
+
+  get Senha(): string {
     return this.senha
   }
 
-  get Numero_conta() {
+  get Numero_conta(): number {
     return this.numero
   }
 
-  get Historico_conta () {
+  get Historico_conta(): Historico {
     return this.historico
   }
 
-  depositar(valor: number): boolean {
+  public depositar(valor: number): boolean {
     
     if(valor > 0) {
       this.saldo += valor
-      
-      let msg = `DEPOSITO - cliente:${this.cliente} conta:${this.Numero_conta} - valor:R$${valor.toFixed(2)}`
-      UTILS.create_Log(msg) // descartar
-      
       return true
     }
     return false
   }
 
-  sacar(valor: number ): boolean {
-    
-    if (valor > 0 && valor < this.saldo) {
-
-      this.saldo -= valor
-      return true
-    } 
-
-    return false
+  public sacar(valor: number): void {
+    this.Saldo = valor
   }
+  
 };
 
 
@@ -87,34 +82,62 @@ export class Conta_corrente extends Conta {
     super(numero, cliente, senha)
     this.limite_por_saque = 500
     this.limite_saques    = 3
+    this.log()
   }
 
-  sacar(valor: number): boolean {
-    
+  private log(): void {
+    let msg = `NOVA CONTA: cliente:${this.cliente}-numero:${this.Numero_conta}_agencia:${this.agencia}`
+    Logger.registrar(msg, LogFilePath.OOP)
+  }
+
+  private verificarLimites(valor: number): boolean {
     let limiteSaquesExcedido = this.Historico_conta.transacoes.length > this.limite_saques
     let limiteExcedido       = valor > this.limite_por_saque
 
     if (limiteExcedido) {
-      
-      let msg = `SAQUE - cliente:${this.cliente} conta:${this.Numero_conta} - Valor maximo de saque excedido! valor:R$${valor.toFixed(2)}`
-      UTILS.create_Log(msg) // descartar
-      
-      console.log('Valor maximo de saque excedido!')
+
+      Error.limiteExcedido()
       return false
-      
+
     } else if (limiteSaquesExcedido) {
-      
-      let msg = `SAQUE - cliente:${this.cliente} conta:${this.Numero_conta} - limite de saques diarios excedido! valor:R$${valor.toFixed(2)}`
-      UTILS.create_Log(msg) // descartar
-      
-      console.log('limite de saques diarios excedido!')
+
+      Error.limiteSaquesExcedido()
       return false
     }
-
-    let msg = `SAQUE - cliente:${this.cliente} conta:${this.Numero_conta} - valor:R$${valor.toFixed(2)}`
-    UTILS.create_Log(msg) // descartar
     
-    super.sacar(valor)
     return true
   }
+
+  private verificarValor(valor: number): boolean {
+    if(valor <= 0){
+
+      Error.valorInvalido()
+      return false
+      
+    } else if(valor > this.Saldo){
+
+      Error.saldoInsuficiente()
+      return false
+    }
+    return true
+  }
+
+  private verificarSaldo(): boolean {
+    return this.Saldo === 0 ? false : true
+  }
+
+  public sacar(valor: number): boolean {
+    
+    let verificarLimites = this.verificarLimites(valor)
+    let verificarvalor   = this.verificarValor(valor)
+    let verificarsalco   = this.verificarSaldo()
+
+    if (verificarLimites && verificarvalor && verificarsalco) {
+      
+      super.sacar(valor)
+      return true
+    } 
+    return false
+  }
+  
 };

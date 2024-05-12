@@ -58,11 +58,13 @@ ${message.padStart((33 + message.length) / 2)}
 
  conta_criada: <T>(nome:T, cpf:T, senha:T, conta:T) => `
  =========================================
+ 
+\t\tConta Criada com sucesso!
 
-        Conta Criada com sucesso!
-
-\t\tTitular:\\${nome} \tCPF:${cpf}
-\t\tConta:\\${conta} \tSenha:${senha}
+\t\tTitular:\\${nome} 
+\t\tCPF:${cpf}
+\t\tConta:\\${conta} 
+\t\tSenha:${senha}
 
  =========================================
  `

@@ -1,7 +1,9 @@
-import { TELAS } from './modulos/screens';
-import { Pessoa_fisica } from './oop/clientes'
-import { Conta_corrente } from './oop/contas'
+import { TELAS }           from './modulos/screens'
+import { Pessoa_fisica }   from './oop/clientes'
+import { Conta_corrente }  from './oop/contas'
 import { Saque, Deposito } from './oop/transacoes'
+import { Logger }          from './oop/logger'
+import { Error }           from './oop/error'
 
 
 let numero_de_contas: number = 0;
@@ -20,11 +22,11 @@ export function criar_cliente(endereco: string, nome: string, nasci: Date, cpf: 
   if (cliente_existe === false){
     const cliente = new Pessoa_fisica(endereco, nome, nasci, cpf)
     clientes.push(cliente)
-    console.log(`Cliente ${nome} cadastrado com sucesso!`)
+    Logger.log(`Cliente ${nome} cadastrado com sucesso!`)
     return
   } 
   
-  console.log(`cliente ${nome} ja esta cadastrado!`)
+  Logger.log(`cliente ${nome} ja esta cadastrado!`)
 };
 
 
@@ -50,7 +52,7 @@ export function nova_conta(cpf: string, nome: string, senha: string): void {
   let cliente_cadastrado = filtrar_cliente(cpf)
 
   if(cliente_cadastrado ===  false){
-    console.log('nenhum cliente com este cpf cadastrado!')
+    Logger.log('nenhum cliente com este cpf cadastrado!')
     return
   }
 
@@ -64,7 +66,7 @@ export function nova_conta(cpf: string, nome: string, senha: string): void {
   let num_conta    = nova_conta.Numero_conta
   let senha_conta  = nova_conta.Senha
     
-  console.log(TELAS.conta_criada(nome_conta, cpf_conta, senha_conta, String(num_conta)))
+  Logger.log(TELAS.conta_criada(nome_conta, cpf_conta, senha_conta, String(num_conta)))
   
   numero_de_contas++ 
 };
@@ -75,10 +77,11 @@ export function nova_conta(cpf: string, nome: string, senha: string): void {
  * por retornar a conta especifica que o cliente deseja operar.
  * @returns { POO.Conta_corrente | undefinde }
  */
-export function recuperar_conta_cliente (cliente: Pessoa_fisica, numero_conta: number) {
+export function recuperar_conta_cliente (cliente: Pessoa_fisica, numero_conta: number): false | Conta_corrente {
+  
   if (cliente.contas.length === 0) {
-    console.log('cliente não possui conta!')
-    return  
+    Error.clienteSemContaregistrada()
+    return false
   }
 
   for(let conta of cliente.contas){
@@ -86,7 +89,12 @@ export function recuperar_conta_cliente (cliente: Pessoa_fisica, numero_conta: n
       return conta
     }
   }
+
+  Error.contaNaoExistente()
+  return false
 }; 
+
+
 
 
 /**
@@ -94,14 +102,23 @@ export function recuperar_conta_cliente (cliente: Pessoa_fisica, numero_conta: n
  * coincidir com a senha cadastrada da conta
  */
 export function depositar (valor: number, numero_conta: number, senha: string, cliente: Pessoa_fisica) {
-  let conta    = recuperar_conta_cliente(cliente, numero_conta)
-  let deposito = new Deposito(valor)
   
-  if(senha === conta?.Senha){
-    console.log(TELAS.template('Deposito concluido!'))
-    cliente.realizar_transacao(conta, deposito)
-    return
+  let conta = recuperar_conta_cliente(cliente, numero_conta)
+
+  if(conta != false){
+    let deposito     = new Deposito(valor)
+    let senhaCorreta = verificar_senha(senha, conta.Senha)
+
+    if(senhaCorreta) {
+      Logger.log(TELAS.template('Deposito concluido!'))
+      cliente.realizar_transacao(conta, deposito)
+      return
+    }
+    
+    Error.senhaIncorreta()
   }
+  
+  Error.contaNaoExistente()
 };
 
 
@@ -110,14 +127,23 @@ export function depositar (valor: number, numero_conta: number, senha: string, c
  * coincidir com a senha cadastrada da conta
  */
 export function sacar (valor: number, numero_conta: number, senha: string, cliente: Pessoa_fisica) {
-  let conta = recuperar_conta_cliente(cliente, numero_conta)
-  let saque = new Saque(valor)
   
-  if(senha === conta?.Senha){
-    console.log(TELAS.template('Saque concluido'))
-    cliente.realizar_transacao(conta, saque)
-    return
+  let conta = recuperar_conta_cliente(cliente, numero_conta)
+  
+  if(conta != false){
+    let saque        = new Saque(valor)
+    let senhaCorreta = verificar_senha(senha, conta.Senha)
+
+    if(senhaCorreta) {
+      Logger.log(TELAS.template('Deposito concluido!'))
+      cliente.realizar_transacao(conta, saque)
+      return
+    }
+
+    Error.senhaIncorreta()
   }
+
+  Error.contaNaoExistente()
 };
 
 
@@ -137,10 +163,19 @@ export function ver_extrato (numero_conta: number, cliente: Pessoa_fisica) {
     }
 
     for(let transacao of conta.Historico_conta.Transacoes){
-      extrato += `[${transacao.data}] - ${transacao.tipo.toLocaleUpperCase()} valor: R$ ${transacao.valor.toFixed(2)}\n`
+      extrato += `[${transacao.data}] - ${transacao.tipo.toLocaleUpperCase()}-valor:R$ ${transacao.valor.toFixed(2)}\n`
     }
 
     extrato += `SALDO TOTAL: R$ ${conta.Saldo}`
     return TELAS.template(extrato)
   }
+
+  Error.clienteSemContaregistrada()
 };
+
+/**
+ *@description Função responsavel por verificar se a senha está correta
+ */
+function verificar_senha(senha_inserida: string, senha_correta: string): boolean {
+  return senha_inserida === senha_correta
+}

@@ -3,6 +3,7 @@ import { rl }            from './modulos/readline';
 import { TELAS }         from './modulos/screens';
 import { UTILS }         from './modulos/utils';
 import { Pessoa_fisica } from './oop/clientes';
+import { Error }         from './oop/error';
 
 type opcao          = 'a' | 'b' | 'c' | 'x';
 type opcao_app      = Extract<opcao, 'a' | 'b' | 'x'> | string;
@@ -33,7 +34,6 @@ async function novo_user(): Promise<void> {
 
   console.clear()
   op.criar_cliente(endereco, nome, UTILS.nascimento(nascimento), cpf)
-  UTILS.create_Log(`NOVO USUÀRIO nome:${nome} - CPF:${cpf} - data_nasc:${nascimento}`)
   cadastrar()
 }
 
@@ -51,7 +51,6 @@ async function nova_conta(): Promise<void> {
   console.clear()
   
   op.nova_conta(cpf, nome, senha)
-  UTILS.create_Log(`NOVA CONTA CPF:${cpf} - NOME:${nome}`) // registra um novo log
   cadastrar()
 }
 
@@ -74,7 +73,7 @@ async function depositar(): Promise<void> {
     return 
   }
 
-  console.log(TELAS.template('Cliente não encontrado!'))
+  Error.clienteNaoEncontrado()
   menu_conta()
 }
 
@@ -102,7 +101,7 @@ async function sacar(): Promise<void> {
     return
   }
 
-  console.log(TELAS.template('Cliente não encontrado!'))
+  Error.clienteNaoEncontrado()
   menu_conta()
 }
 
@@ -130,7 +129,7 @@ async function extrato(): Promise<void> {
     return
   }
 
-  console.log(TELAS.template('Cliente não encontrado!'))
+  Error.clienteNaoEncontrado()
   menu_conta()
 }
 

@@ -1,5 +1,7 @@
-import { UTILS } from '../modulos/utils'
+import { now }            from '../modulos/getDateTime'
 import { Conta_corrente } from './contas'
+import { Error }          from './error'
+
 
 /**
  * @abstract
@@ -34,12 +36,20 @@ export class Saque extends Transacao {
     return this.valor
   }
   
-  Registrar(conta: Conta_corrente) {
+  public Registrar(conta: Conta_corrente) {
     let sucesso = conta.sacar(this.Valor())
 
-    if(sucesso){
-      conta.historico.nova_transacao('SAQUE', this.Valor(), UTILS.now())
+    if(sucesso != false){
+      
+      conta.historico.nova_transacao(
+        this.constructor.name.toUpperCase(), 
+        this.Valor(), 
+        now()
+      )
+      return
     }
+
+    Error.erroDeTransacao()
   }
   
 };
@@ -66,13 +76,21 @@ export class Deposito extends Transacao {
     return this.valor
   }
   
-  Registrar(conta: Conta_corrente) {
+  public Registrar(conta: Conta_corrente) {
      
     let sucesso = conta.depositar(this.Valor())
 
-    if(sucesso){
-      conta.historico.nova_transacao('DEPOSITO', this.Valor(), UTILS.now())
+    if(sucesso != false ){
+      
+      conta.historico.nova_transacao(
+        this.constructor.name.toUpperCase(), 
+        this.Valor(), 
+        now()
+      )
+      return
     }
+
+    Error.erroDeTransacao()
   }
   
 };
