@@ -1,11 +1,13 @@
-import * as POO from './classes';
+import { Historico } from './oop/historico'
+import { Conta } from './oop/contas'
+
 
 export interface conta {
   
   readonly agencia:   string
   readonly numero:    number
            cliente:   string
-           historico: POO.Historico
+           historico: Historico
 };
 
 export interface pessoa_fisica {
@@ -18,7 +20,7 @@ export interface pessoa_fisica {
 export interface cliente {
   
   endereco: string
-  contas:   POO.Conta[]
+  contas:   Conta[]
 };
 
 export interface historico {

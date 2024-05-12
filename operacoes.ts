@@ -1,9 +1,12 @@
-import * as POO  from './classes';
-import { TELAS } from './screens';
+import { TELAS } from './modulos/screens';
+import { Pessoa_fisica } from './oop/clientes'
+import { Conta_corrente } from './oop/contas'
+import { Saque, Deposito } from './oop/transacoes'
 
 
 let numero_de_contas: number = 0;
-let clientes: POO.Pessoa_fisica[] = [];
+let clientes: Pessoa_fisica[] = [];
+
 
 
 /**
@@ -15,7 +18,7 @@ export function criar_cliente(endereco: string, nome: string, nasci: Date, cpf: 
   let cliente_existe = filtrar_cliente(cpf)
   
   if (cliente_existe === false){
-    const cliente = new POO.Pessoa_fisica(endereco, nome, nasci, cpf)
+    const cliente = new Pessoa_fisica(endereco, nome, nasci, cpf)
     clientes.push(cliente)
     console.log(`Cliente ${nome} cadastrado com sucesso!`)
     return
@@ -29,7 +32,7 @@ export function criar_cliente(endereco: string, nome: string, nasci: Date, cpf: 
  * @description Filtra um cliente especifico de uma lista de clientes cadastrados no sistema.
  * @retuns { POO.Pessoa_fisica | false } retorna o cliente caso ele esteja cadastrado, ou false
  */
-export function filtrar_cliente(cpf: string): POO.Pessoa_fisica | false {
+export function filtrar_cliente(cpf: string): Pessoa_fisica | false {
   for (let cliente of clientes){
     if(cliente.cpf === cpf){
       return cliente
@@ -52,7 +55,7 @@ export function nova_conta(cpf: string, nome: string, senha: string): void {
   }
 
   let numero_conta = numero_de_contas + 1
-  let nova_conta   = new POO.Conta_corrente(numero_conta, nome, senha)
+  let nova_conta   = new Conta_corrente(numero_conta, nome, senha)
   
   cliente_cadastrado.adicionar_conta(nova_conta)
 
@@ -72,7 +75,7 @@ export function nova_conta(cpf: string, nome: string, senha: string): void {
  * por retornar a conta especifica que o cliente deseja operar.
  * @returns { POO.Conta_corrente | undefinde }
  */
-export function recuperar_conta_cliente (cliente: POO.Pessoa_fisica, numero_conta: number) {
+export function recuperar_conta_cliente (cliente: Pessoa_fisica, numero_conta: number) {
   if (cliente.contas.length === 0) {
     console.log('cliente não possui conta!')
     return  
@@ -90,9 +93,9 @@ export function recuperar_conta_cliente (cliente: POO.Pessoa_fisica, numero_cont
  * @description Cria uma nova transação de deposito e realiza a transação se a senha passada
  * coincidir com a senha cadastrada da conta
  */
-export function depositar (valor: number, numero_conta: number, senha: string, cliente: POO.Pessoa_fisica) {
+export function depositar (valor: number, numero_conta: number, senha: string, cliente: Pessoa_fisica) {
   let conta    = recuperar_conta_cliente(cliente, numero_conta)
-  let deposito = new POO.Deposito(valor)
+  let deposito = new Deposito(valor)
   
   if(senha === conta?.Senha){
     console.log(TELAS.template('Deposito concluido!'))
@@ -106,9 +109,9 @@ export function depositar (valor: number, numero_conta: number, senha: string, c
  * @description Cria uma nova transação de saque e realiza a transação se a senha passada
  * coincidir com a senha cadastrada da conta
  */
-export function sacar (valor: number, numero_conta: number, senha: string, cliente: POO.Pessoa_fisica) {
+export function sacar (valor: number, numero_conta: number, senha: string, cliente: Pessoa_fisica) {
   let conta = recuperar_conta_cliente(cliente, numero_conta)
-  let saque = new POO.Saque(valor)
+  let saque = new Saque(valor)
   
   if(senha === conta?.Senha){
     console.log(TELAS.template('Saque concluido'))
@@ -122,7 +125,7 @@ export function sacar (valor: number, numero_conta: number, senha: string, clien
  * @description Função que retorna o historico de transações da conta
  * @returns {string} extrato
  */
-export function ver_extrato (numero_conta: number, cliente: POO.Pessoa_fisica) {
+export function ver_extrato (numero_conta: number, cliente: Pessoa_fisica) {
   let conta = recuperar_conta_cliente(cliente, numero_conta)
 
   if (conta){ // se conta existir

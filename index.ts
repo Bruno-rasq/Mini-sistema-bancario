@@ -1,8 +1,8 @@
 import * as op           from './operacoes';
-import { rl }            from './readline';
-import { TELAS }         from './screens';
-import { UTILS }         from './utils';
-import { Pessoa_fisica } from './classes';
+import { rl }            from './modulos/readline';
+import { TELAS }         from './modulos/screens';
+import { UTILS }         from './modulos/utils';
+import { Pessoa_fisica } from './oop/clientes';
 
 type opcao          = 'a' | 'b' | 'c' | 'x';
 type opcao_app      = Extract<opcao, 'a' | 'b' | 'x'> | string;
