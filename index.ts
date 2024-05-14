@@ -1,26 +1,23 @@
-import * as op           from './operacoes';
-import { rl }            from './modulos/readline';
-import { TELAS }         from './modulos/screens';
-import { UTILS }         from './modulos/utils';
+import { criar_cliente } from './operacoes_bancarias/cadastrar_usuario'
+import { nova_conta as Nova_conta } from './operacoes_bancarias/nova_conta'
+import { rl }            from './contrib/readline';
+import { TELAS }         from './contrib/screens';
+import { UTILS }         from './contrib/utils';
 import { Pessoa_fisica } from './oop/clientes';
 import { Error }         from './oop/error';
+import { depositar as deposito } from './operacoes_bancarias/depositar'
+import { filtrar_cliente } from './operacoes_bancarias/filtrar_usuarios'
+import { sacar as saque } from './operacoes_bancarias/sacar'
+import { ver_extrato as extrato_conta } from './operacoes_bancarias/extrato'
+import { getInput } from './contrib/getInput'
+
 
 type opcao          = 'a' | 'b' | 'c' | 'x';
 type opcao_app      = Extract<opcao, 'a' | 'b' | 'x'> | string;
 type opcao_cadastro = Extract<opcao, 'a' | 'b' | 'x'> | string;
 type opcao_menu     = Extract<opcao, 'a' | 'b' | 'c' | 'x'> | string;
 
-/**
- * @description Função que coleta o input do usuario.
- */
-function getInput(message: string) {
-  
-  return new Promise ((resolver) => {
-    rl.question(message, (response) => {
-      resolver (response)
-    })
-  })
-}
+
 
 /**
  * @description Função responsável por cadastrar um novo usuário no sistema
@@ -33,7 +30,7 @@ async function novo_user(): Promise<void> {
   const cpf        = String(await getInput('digite seu CPF: '))
 
   console.clear()
-  op.criar_cliente(endereco, nome, UTILS.nascimento(nascimento), cpf)
+  criar_cliente(endereco, nome, UTILS.nascimento(nascimento), cpf)
   cadastrar()
 }
 
@@ -50,7 +47,7 @@ async function nova_conta(): Promise<void> {
   
   console.clear()
   
-  op.nova_conta(cpf, nome, senha)
+  Nova_conta(cpf, nome, senha)
   cadastrar()
 }
 
@@ -66,7 +63,7 @@ async function depositar(): Promise<void> {
   const senha = String(await getInput('digite seu senha: '))
 
   console.clear()
-  let cliente = op.filtrar_cliente(cpf)
+  let cliente = filtrar_cliente(cpf)
 
   if (cliente != false){
     realizar_deposito(valor, conta, senha, cliente)
@@ -79,7 +76,7 @@ async function depositar(): Promise<void> {
 
 function realizar_deposito(valor: number, numero_conta: number, senha: string, cliente: Pessoa_fisica): void {
   
-  op.depositar(valor, numero_conta, senha, cliente)
+  deposito(valor, numero_conta, senha, cliente)
   menu_conta()
 }
 
@@ -94,7 +91,7 @@ async function sacar(): Promise<void> {
   const senha = String(await getInput('digite seu senha: '))
 
   console.clear()
-  let cliente = op.filtrar_cliente(cpf)
+  let cliente = filtrar_cliente(cpf)
 
   if(cliente != false){
     realizar_saque(valor, conta, senha, cliente)
@@ -107,7 +104,7 @@ async function sacar(): Promise<void> {
 
 function realizar_saque(valor: number, numero_conta: number, senha: string, cliente: Pessoa_fisica): void {
   
-  op.sacar(valor, numero_conta, senha, cliente)
+  saque(valor, numero_conta, senha, cliente)
   menu_conta()
 }
 
@@ -122,7 +119,7 @@ async function extrato(): Promise<void> {
 
   console.clear()
   
-  let cliente = op.filtrar_cliente(cpf)
+  let cliente = filtrar_cliente(cpf)
   
   if(cliente != false){
     ver_extrato(conta, cliente)
@@ -135,7 +132,7 @@ async function extrato(): Promise<void> {
 
 function ver_extrato(numero_conta: number, cliente: Pessoa_fisica): void {
   
-  let extrato = op.ver_extrato(numero_conta, cliente)
+  let extrato = extrato_conta(numero_conta, cliente)
   console.log(extrato)
   menu_conta()
 }

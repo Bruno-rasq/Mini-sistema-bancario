@@ -1,4 +1,4 @@
-import { now }            from '../modulos/getDateTime'
+import { now }            from '../contrib/getDateTime'
 import { Conta_corrente } from './contas'
 import { Error }          from './error'
 

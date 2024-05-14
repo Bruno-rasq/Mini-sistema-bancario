@@ -1,9 +1,10 @@
 import * as fs from 'fs';
-import { now } from '../modulos/getDateTime';
+import { now } from '../contrib/getDateTime';
 
 export enum LogFilePath {
-    ROOT = './logs.txt',
-    OOP = './oop/logs_oop.txt',
+    ROOT = '../logs/logs.txt',
+    OOP = '../logs/operações.txt',
+    ERROR = '../logs/erros.txt',
     OTHER = './other/logs_other.txt'
 }
 

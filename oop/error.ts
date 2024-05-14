@@ -1,5 +1,9 @@
-import { TELAS } from '../modulos/screens'
+import { TELAS } from '../contrib/screens'
+import { Pessoa_fisica } from './clientes'
+import { Logger, LogFilePath } from './logger'
 
+
+// TODO: registrar todos os erros em logs
 export class Error {
 
   static limiteExcedido(): void {
@@ -32,9 +36,11 @@ export class Error {
     console.log(erro)
   }
 
-  static clienteSemContaregistrada(): void {
-    let erro = TELAS.template('Cliente não possue contas registradas!')
+  static clienteSemContaregistrada(cliente: Pessoa_fisica): void {
+    let erro = TELAS.template(`Cliente ${cliente.nome} não possue contas registradas!`)
     console.log(erro)
+
+    Logger.registrar(erro, LogFilePath.ERROR)
   }
 
   static senhaIncorreta(): void {
