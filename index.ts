@@ -1,15 +1,15 @@
-import { criar_cliente } from './operacoes_bancarias/cadastrar_usuario'
-import { nova_conta as Nova_conta } from './operacoes_bancarias/nova_conta'
-import { rl }            from './contrib/readline';
-import { TELAS }         from './contrib/screens';
-import { UTILS }         from './contrib/utils';
-import { Pessoa_fisica } from './oop/clientes';
-import { Error }         from './oop/error';
-import { depositar as deposito } from './operacoes_bancarias/depositar'
-import { filtrar_cliente } from './operacoes_bancarias/filtrar_usuarios'
-import { sacar as saque } from './operacoes_bancarias/sacar'
+import { criar_cliente }                from './operacoes_bancarias/cadastrar_usuario'
+import { nova_conta as Nova_conta }     from './operacoes_bancarias/nova_conta'
+import { rl }                           from './contrib/readline';
+import { TELAS }                        from './contrib/screens';
+import { UTILS }                        from './contrib/utils';
+import { Pessoa_fisica }                from './oop/clientes';
+import { Error }                        from './oop/error';
+import { depositar as deposito }        from './operacoes_bancarias/depositar'
+import { filtrar_cliente }              from './operacoes_bancarias/filtrar_usuarios'
+import { sacar as saque }               from './operacoes_bancarias/sacar'
 import { ver_extrato as extrato_conta } from './operacoes_bancarias/extrato'
-import { getInput } from './contrib/getInput'
+import { getInput }                     from './contrib/getInput'
 
 
 type opcao          = 'a' | 'b' | 'c' | 'x';

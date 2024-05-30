@@ -1,4 +1,3 @@
-
 /**
  * @description objeto que contem todas as telas do programa.
  */

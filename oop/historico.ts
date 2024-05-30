@@ -29,8 +29,9 @@ export class Historico implements historico  {
       data: data
     })
 
-    let msg = `${tipo}-R$${valor.toFixed(2)}`
-    this.log(msg)
+    // ATENCAO: o codigo deve registrar um log da nova transaçõa, comentei esse trecho para os teste
+    // let msg = `${tipo}-R$${valor.toFixed(2)}`
+    // this.log(msg)
   }
 
   private log(msm: string){

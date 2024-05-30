@@ -1,4 +1,3 @@
-
 /**
  * @description Função responsável por retornar o timeZone
  */

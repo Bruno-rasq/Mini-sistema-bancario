@@ -8,7 +8,7 @@ export namespace UTILS {
     let caracteres = 'abcdefghijklmnopqrstuvxywz1234567890-_!@#*/$%&'
     let senha      = ''
     
-    for (let i = 0; i < 7; i++){
+    for (let i = 0; i <= 7; i++){
       let index = Math.floor(Math.random() * caracteres.length)
       senha += caracteres[index]
     }
