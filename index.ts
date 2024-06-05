@@ -1,15 +1,5 @@
-import { criar_cliente }                from './operacoes_bancarias/cadastrar_usuario'
-import { nova_conta as Nova_conta }     from './operacoes_bancarias/nova_conta'
-import { rl }                           from './contrib/readline';
-import { TELAS }                        from './contrib/screens';
-import { UTILS }                        from './contrib/utils';
-import { Pessoa_fisica }                from './oop/clientes';
-import { Error }                        from './oop/error';
-import { depositar as deposito }        from './operacoes_bancarias/depositar'
-import { filtrar_cliente }              from './operacoes_bancarias/filtrar_usuarios'
-import { sacar as saque }               from './operacoes_bancarias/sacar'
-import { ver_extrato as extrato_conta } from './operacoes_bancarias/extrato'
-import { getInput }                     from './contrib/getInput'
+import modules from './operacoes_bancarias/barril'
+import { Pessoa_fisica }  from './oop/clientes';
 
 
 type opcao          = 'a' | 'b' | 'c' | 'x';
@@ -24,13 +14,13 @@ type opcao_menu     = Extract<opcao, 'a' | 'b' | 'c' | 'x'> | string;
  */
 async function novo_user(): Promise<void> {
 
-  const nome       = String(await getInput('digite seu nome aqui: '))
-  const endereco   = String(await getInput('digite seu endereco: '))
-  const nascimento = String(await getInput('digite sua data de nascimento XX/XX/XXXX: '))
-  const cpf        = String(await getInput('digite seu CPF: '))
+  const nome       = String(await modules.getInput('digite seu nome aqui: '))
+  const endereco   = String(await modules.getInput('digite seu endereco: '))
+  const nascimento = String(await modules.getInput('digite sua data de nascimento XX/XX/XXXX: '))
+  const cpf        = String(await modules.getInput('digite seu CPF: '))
 
   console.clear()
-  criar_cliente(endereco, nome, UTILS.nascimento(nascimento), cpf)
+  modules.criar_cliente(endereco, nome, modules.UTILS.nascimento(nascimento), cpf)
   cadastrar()
 }
 
@@ -41,13 +31,13 @@ async function novo_user(): Promise<void> {
  */
 async function nova_conta(): Promise<void> {
 
-  const nome  = String(await getInput('digite seu nome aqui: '))
-  const cpf   = String(await getInput('digite seu CPF: '))
-  const senha = String(await getInput('digite uma senha para sua conta: '))
+  const nome  = String(await modules.getInput('digite seu nome aqui: '))
+  const cpf   = String(await modules.getInput('digite seu CPF: '))
+  const senha = String(await modules.getInput('digite uma senha para sua conta: '))
   
   console.clear()
   
-  Nova_conta(cpf, nome, senha)
+  modules.Nova_conta(cpf, nome, senha)
   cadastrar()
 }
 
@@ -55,56 +45,56 @@ async function nova_conta(): Promise<void> {
 /**
  * @description Função responsável por efetuar a transação de deposito 
  */
-async function depositar(): Promise<void> {
+async function chamar_depositar(): Promise<void> {
 
-  const cpf   = String(await getInput('digite seu cpf: '))
-  const conta = Number(await getInput('digite seu numero_da_conta: '))
-  const valor = Number(await getInput('digite o valor que deseja depositar: '))
-  const senha = String(await getInput('digite seu senha: '))
+  const cpf   = String(await modules.getInput('digite seu cpf: '))
+  const conta = Number(await modules.getInput('digite seu numero_da_conta: '))
+  const valor = Number(await modules.getInput('digite o valor que deseja depositar: '))
+  const senha = String(await modules.getInput('digite seu senha: '))
 
   console.clear()
-  let cliente = filtrar_cliente(cpf)
+  let cliente = modules.filtrar_cliente(cpf)
 
   if (cliente != false){
     realizar_deposito(valor, conta, senha, cliente)
     return 
   }
 
-  Error.clienteNaoEncontrado()
+  modules.Error.clienteNaoEncontrado()
   menu_conta()
 }
 
 function realizar_deposito(valor: number, numero_conta: number, senha: string, cliente: Pessoa_fisica): void {
   
-  deposito(valor, numero_conta, senha, cliente)
+  modules.deposito(valor, numero_conta, senha, cliente)
   menu_conta()
 }
 
 /**
  * @description Função responsável por efetuar a transação de saque
  */
-async function sacar(): Promise<void> {
+async function chamar_sacar(): Promise<void> {
 
-  const cpf   = String(await getInput('digite seu cpf: '))
-  const conta = Number(await getInput('digite seu numero_da_conta: '))
-  const valor = Number(await getInput('digite o valor que deseja depositar: '))
-  const senha = String(await getInput('digite seu senha: '))
+  const cpf   = String(await modules.getInput('digite seu cpf: '))
+  const conta = Number(await modules.getInput('digite seu numero_da_conta: '))
+  const valor = Number(await modules.getInput('digite o valor que deseja depositar: '))
+  const senha = String(await modules.getInput('digite seu senha: '))
 
   console.clear()
-  let cliente = filtrar_cliente(cpf)
+  let cliente = modules.filtrar_cliente(cpf)
 
   if(cliente != false){
     realizar_saque(valor, conta, senha, cliente)
     return
   }
 
-  Error.clienteNaoEncontrado()
+  modules.Error.clienteNaoEncontrado()
   menu_conta()
 }
 
 function realizar_saque(valor: number, numero_conta: number, senha: string, cliente: Pessoa_fisica): void {
   
-  saque(valor, numero_conta, senha, cliente)
+  modules.saque(valor, numero_conta, senha, cliente)
   menu_conta()
 }
 
@@ -112,27 +102,27 @@ function realizar_saque(valor: number, numero_conta: number, senha: string, clie
 /**
  * @description Função responsável por exibir o extrato da conta do usuario
  */
-async function extrato(): Promise<void> {
+async function chamar_extrato(): Promise<void> {
 
-  const cpf   = String(await getInput('digite seu cpf: '))
-  const conta = Number(await getInput('digite seu numero_da_conta: '))
+  const cpf   = String(await modules.getInput('digite seu cpf: '))
+  const conta = Number(await modules.getInput('digite seu numero_da_conta: '))
 
   console.clear()
   
-  let cliente = filtrar_cliente(cpf)
+  let cliente = modules.filtrar_cliente(cpf)
   
   if(cliente != false){
     ver_extrato(conta, cliente)
     return
   }
 
-  Error.clienteNaoEncontrado()
+  modules.Error.clienteNaoEncontrado()
   menu_conta()
 }
 
 function ver_extrato(numero_conta: number, cliente: Pessoa_fisica): void {
   
-  let extrato = extrato_conta(numero_conta, cliente)
+  let extrato = modules.extrato_conta(numero_conta, cliente)
   console.log(extrato)
   menu_conta()
 }
@@ -143,8 +133,8 @@ function ver_extrato(numero_conta: number, cliente: Pessoa_fisica): void {
  */
 function sair(): void {
 
-  console.log(TELAS.template('Obrigado por usar!'))
-  rl.close();
+  console.log(modules.TELAS.template('Obrigado por usar!'))
+  modules.rl.close();
 } 
 
 
@@ -159,7 +149,7 @@ function sair(): void {
  */
 async function menu_conta(): Promise<void> {
 
-  const opcao = String(await getInput(TELAS.tela_conta)) as opcao_menu
+  const opcao = String(await modules.getInput(modules.TELAS.tela_conta)) as opcao_menu
   
   escolhaMenu(opcao)
 } 
@@ -167,9 +157,9 @@ async function menu_conta(): Promise<void> {
 function escolhaMenu(opcao: opcao_menu): void {
   
   switch(opcao.toLowerCase()){
-    case 'a': { console.clear(); depositar();  break; }
-    case 'b': { console.clear(); sacar();      break; }
-    case 'c': { console.clear(); extrato();    break; }
+    case 'a': { console.clear(); chamar_depositar();  break; }
+    case 'b': { console.clear(); chamar_sacar();      break; }
+    case 'c': { console.clear(); chamar_extrato();    break; }
     case 'x': { console.clear(); APP();        break; }
     default:  { console.clear(); menu_conta(); break; }
   }
@@ -182,7 +172,7 @@ function escolhaMenu(opcao: opcao_menu): void {
 */
 async function cadastrar(): Promise<void> {
 
-  const opcao = String(await getInput(TELAS.tela_cadastro)) as opcao_cadastro
+  const opcao = String(await modules.getInput(modules.TELAS.tela_cadastro)) as opcao_cadastro
   
   escolhaCadastro(opcao)
 } 
@@ -205,7 +195,7 @@ function escolhaCadastro(opcao: opcao_cadastro): void {
  */
 async function APP(): Promise<void> {
 
-  const opcao = String(await getInput(TELAS.tela_inicial)) as opcao_app
+  const opcao = String(await modules.getInput(modules.TELAS.tela_inicial)) as opcao_app
   
   escolhaAPP(opcao)
 }
