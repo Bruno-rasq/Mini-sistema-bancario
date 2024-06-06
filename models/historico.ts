@@ -1,4 +1,4 @@
-import { historico, transacao } from '../interfaces'
+import { historico, transacao } from '../contracts/interfaces'
 import { Logger, LogFilePath }  from './logger'
 
 /**

@@ -1,6 +1,6 @@
 import { Conta_corrente }         from './contas'
 import { Saque, Deposito }        from './transacoes'
-import { pessoa_fisica, cliente } from '../interfaces'
+import { pessoa_fisica, cliente } from '../contracts/interfaces'
 import { Logger, LogFilePath }    from './logger'
 
 /**

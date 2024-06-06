@@ -1,14 +1,15 @@
-import { criar_cliente }                from './cadastrar_usuario'
-import { nova_conta as Nova_conta }     from './nova_conta'
+import { Error }                        from '../models/error'
+
 import { rl }                           from '../contrib/readline'
 import { TELAS }                        from '../contrib/screens'
 import { UTILS }                        from '../contrib/utils'
-import { Error }                        from '../oop/error'
+
+import { criar_cliente }                from './cadastrar_usuario'
+import { nova_conta as Nova_conta }     from './nova_conta'
 import { depositar as deposito }        from './depositar'
 import { filtrar_cliente }              from './filtrar_usuarios'
 import { sacar as saque }               from './sacar'
 import { ver_extrato as extrato_conta } from './extrato'
-import { getInput }                     from '../contrib/getInput'
 
 const modules = {
   criar_cliente,
@@ -20,8 +21,7 @@ const modules = {
   deposito,
   filtrar_cliente,
   saque,
-  extrato_conta,
-  getInput
+  extrato_conta
 }
 
 export default modules

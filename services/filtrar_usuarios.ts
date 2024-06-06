@@ -1,5 +1,5 @@
-import { Pessoa_fisica } from '../oop/clientes'
-import { clientes } from './cadastrar_usuario'
+import { Pessoa_fisica } from '../models/clientes'
+import { clientes }      from './cadastrar_usuario'
 
 /**
  * @description Filtra um cliente especifico de uma lista de clientes cadastrados no sistema.

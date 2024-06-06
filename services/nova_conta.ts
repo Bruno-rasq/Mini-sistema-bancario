@@ -1,7 +1,7 @@
+import { Logger }          from '../models/logger'
+import { Conta_corrente }  from '../models/contas'
+import { TELAS }           from '../contrib/screens'
 import { filtrar_cliente } from './filtrar_usuarios'
-import { Logger } from '../oop/logger'
-import { Conta_corrente } from '../oop/contas'
-import { TELAS } from '../contrib/screens'
 
 
 let numero_de_contas: number = 0;

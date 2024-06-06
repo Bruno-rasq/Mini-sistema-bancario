@@ -1,6 +1,6 @@
-import { Conta_corrente } from '../oop/contas'
-import { Pessoa_fisica } from '../oop/clientes'
-import { Error } from '../oop/error'
+import { Conta_corrente } from '../models/contas'
+import { Pessoa_fisica }  from '../models/clientes'
+import { Error }          from '../models/error'
 
 
 /**

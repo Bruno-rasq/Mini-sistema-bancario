@@ -1,5 +1,5 @@
-import { Historico } from './oop/historico'
-import { Conta } from './oop/contas'
+import { Historico } from '../models/historico'
+import { Conta }     from '../models/contas'
 
 
 export interface conta {
@@ -10,6 +10,7 @@ export interface conta {
            historico: Historico
 };
 
+
 export interface pessoa_fisica {
   
   nome:            string
@@ -17,17 +18,20 @@ export interface pessoa_fisica {
   cpf:             string
 };
 
+
 export interface cliente {
   
   endereco: string
   contas:   Conta[]
 };
 
+
 export interface historico {
   
   transacoes: transacao[]
   nova_transacao: (tipo: string, valor: number, data:string) => void
 };
+
 
 export interface transacao {
   

@@ -1,9 +1,8 @@
-import { Pessoa_fisica } from '../oop/clientes'
-import { Logger } from '../oop/logger'
+import { Pessoa_fisica }   from '../models/clientes'
+import { Logger }          from '../models/logger'
 import { filtrar_cliente } from './filtrar_usuarios'
 
 export let clientes: Pessoa_fisica[] = [];
-
 
 /**
  * @description Função que cadastrar um novo cliente no sistema caso o cliente já não exista

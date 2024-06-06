@@ -1,5 +1,5 @@
 import { Logger, LogFilePath } from './logger'
-import { conta }               from '../interfaces'
+import { conta }               from '../contracts/interfaces'
 import { Historico }           from './historico'
 import { Error }               from './error'
 

@@ -1,5 +1,7 @@
-import modules from './operacoes_bancarias/barril'
-import { Pessoa_fisica }  from './oop/clientes';
+import modules           from './services/barril'
+import { Pessoa_fisica } from './models/clientes'
+import { getInput }      from './contrib/getInput'
+
 
 
 type opcao          = 'a' | 'b' | 'c' | 'x';
@@ -14,10 +16,10 @@ type opcao_menu     = Extract<opcao, 'a' | 'b' | 'c' | 'x'> | string;
  */
 async function novo_user(): Promise<void> {
 
-  const nome       = String(await modules.getInput('digite seu nome aqui: '))
-  const endereco   = String(await modules.getInput('digite seu endereco: '))
-  const nascimento = String(await modules.getInput('digite sua data de nascimento XX/XX/XXXX: '))
-  const cpf        = String(await modules.getInput('digite seu CPF: '))
+  const nome       = String(await getInput('digite seu nome aqui: '))
+  const endereco   = String(await getInput('digite seu endereco: '))
+  const nascimento = String(await getInput('digite sua data de nascimento XX/XX/XXXX: '))
+  const cpf        = String(await getInput('digite seu CPF: '))
 
   console.clear()
   modules.criar_cliente(endereco, nome, modules.UTILS.nascimento(nascimento), cpf)
@@ -31,9 +33,9 @@ async function novo_user(): Promise<void> {
  */
 async function nova_conta(): Promise<void> {
 
-  const nome  = String(await modules.getInput('digite seu nome aqui: '))
-  const cpf   = String(await modules.getInput('digite seu CPF: '))
-  const senha = String(await modules.getInput('digite uma senha para sua conta: '))
+  const nome  = String(await getInput('digite seu nome aqui: '))
+  const cpf   = String(await getInput('digite seu CPF: '))
+  const senha = String(await getInput('digite uma senha para sua conta: '))
   
   console.clear()
   
@@ -47,10 +49,10 @@ async function nova_conta(): Promise<void> {
  */
 async function chamar_depositar(): Promise<void> {
 
-  const cpf   = String(await modules.getInput('digite seu cpf: '))
-  const conta = Number(await modules.getInput('digite seu numero_da_conta: '))
-  const valor = Number(await modules.getInput('digite o valor que deseja depositar: '))
-  const senha = String(await modules.getInput('digite seu senha: '))
+  const cpf   = String(await getInput('digite seu cpf: '))
+  const conta = Number(await getInput('digite seu numero_da_conta: '))
+  const valor = Number(await getInput('digite o valor que deseja depositar: '))
+  const senha = String(await getInput('digite seu senha: '))
 
   console.clear()
   let cliente = modules.filtrar_cliente(cpf)
@@ -75,10 +77,10 @@ function realizar_deposito(valor: number, numero_conta: number, senha: string, c
  */
 async function chamar_sacar(): Promise<void> {
 
-  const cpf   = String(await modules.getInput('digite seu cpf: '))
-  const conta = Number(await modules.getInput('digite seu numero_da_conta: '))
-  const valor = Number(await modules.getInput('digite o valor que deseja depositar: '))
-  const senha = String(await modules.getInput('digite seu senha: '))
+  const cpf   = String(await getInput('digite seu cpf: '))
+  const conta = Number(await getInput('digite seu numero_da_conta: '))
+  const valor = Number(await getInput('digite o valor que deseja depositar: '))
+  const senha = String(await getInput('digite seu senha: '))
 
   console.clear()
   let cliente = modules.filtrar_cliente(cpf)
@@ -104,8 +106,8 @@ function realizar_saque(valor: number, numero_conta: number, senha: string, clie
  */
 async function chamar_extrato(): Promise<void> {
 
-  const cpf   = String(await modules.getInput('digite seu cpf: '))
-  const conta = Number(await modules.getInput('digite seu numero_da_conta: '))
+  const cpf   = String(await getInput('digite seu cpf: '))
+  const conta = Number(await getInput('digite seu numero_da_conta: '))
 
   console.clear()
   
@@ -149,7 +151,7 @@ function sair(): void {
  */
 async function menu_conta(): Promise<void> {
 
-  const opcao = String(await modules.getInput(modules.TELAS.tela_conta)) as opcao_menu
+  const opcao = String(await getInput(modules.TELAS.tela_conta)) as opcao_menu
   
   escolhaMenu(opcao)
 } 
@@ -172,7 +174,7 @@ function escolhaMenu(opcao: opcao_menu): void {
 */
 async function cadastrar(): Promise<void> {
 
-  const opcao = String(await modules.getInput(modules.TELAS.tela_cadastro)) as opcao_cadastro
+  const opcao = String(await getInput(modules.TELAS.tela_cadastro)) as opcao_cadastro
   
   escolhaCadastro(opcao)
 } 
@@ -195,7 +197,7 @@ function escolhaCadastro(opcao: opcao_cadastro): void {
  */
 async function APP(): Promise<void> {
 
-  const opcao = String(await modules.getInput(modules.TELAS.tela_inicial)) as opcao_app
+  const opcao = String(await getInput(modules.TELAS.tela_inicial)) as opcao_app
   
   escolhaAPP(opcao)
 }

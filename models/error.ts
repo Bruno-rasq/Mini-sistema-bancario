@@ -1,5 +1,5 @@
-import { TELAS } from '../contrib/screens'
-import { Pessoa_fisica } from './clientes'
+import { TELAS }               from '../contrib/screens'
+import { Pessoa_fisica }       from './clientes'
 import { Logger, LogFilePath } from './logger'
 
 

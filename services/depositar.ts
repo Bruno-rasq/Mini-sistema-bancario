@@ -1,10 +1,10 @@
-import { Pessoa_fisica } from '../oop/clientes'
-import { Deposito } from '../oop/transacoes'
-import { Error } from '../oop/error'
-import { TELAS } from '../contrib/screens'
-import { Logger } from '../oop/logger'
+import { Pessoa_fisica }           from '../models/clientes'
+import { Deposito }                from '../models/transacoes'
+import { Error }                   from '../models/error'
+import { Logger }                  from '../models/logger'
+import { TELAS }                   from '../contrib/screens'
 import { recuperar_conta_cliente } from './recuperar_conta'
-import { verificar_senha } from './verificar_senha'
+import { verificar_senha }         from './verificar_senha'
 
 
 /**

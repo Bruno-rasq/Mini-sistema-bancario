@@ -1,7 +1,7 @@
-import { Pessoa_fisica } from '../oop/clientes'
+import { Error }                   from '../models/error'
+import { Pessoa_fisica }           from '../models/clientes'
+import { TELAS }                   from '../contrib/screens'
 import { recuperar_conta_cliente } from './recuperar_conta'
-import { TELAS } from '../contrib/screens'
-import { Error } from '../oop/error'
 
 /**
  * @description Função que retorna o historico de transações da conta
